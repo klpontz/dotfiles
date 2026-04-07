@@ -1,0 +1,41 @@
+# Starship prompt config - Deuteranopia-friendly (Okabe-Ito palette)
+# Blues, oranges, and yellows — avoids red/green distinctions
+
+format = """
+$directory\
+$git_branch\
+$git_status\
+$python\
+$gcloud\
+$line_break\
+$character"""
+
+# Current directory - sky blue
+[directory]
+style = "bold #56B4E9"
+truncation_length = 4
+truncate_to_repo = true
+
+# Git branch - orange
+[git_branch]
+style = "bold #E69F00"
+symbol = " "
+
+# Git status - yellow (shows ?, !, +, etc.)
+[git_status]
+style = "bold #F0E442"
+
+# Python venv - bluish green (distinguishable for deuteranopia)
+[python]
+style = "bold #0072B2"
+symbol = " "
+
+# Google Cloud - muted blue
+[gcloud]
+style = "#0072B2"
+symbol = "☁️  "
+
+# Prompt character - blue on success, vermillion on error (not red/green)
+[character]
+success_symbol = "[❯](bold #56B4E9)"
+error_symbol = "[❯](bold #D55E00)"

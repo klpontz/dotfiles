@@ -42,6 +42,10 @@ source ~/dotfiles/zsh/functions.zsh
 source ~/dotfiles/zsh/6crickets.zsh
 
 
+# Starship prompt
+eval "$(starship init zsh)"
+
+
 # =============================================================================
 # Machine-specific config (not committed to git)
 # =============================================================================
