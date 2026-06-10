@@ -26,15 +26,17 @@ alias sh-al='cat ~/dotfiles/zsh/aliases.zsh'
 alias sh-fun='cat ~/dotfiles/zsh/functions.zsh'
 alias sh-6='cat ~/dotfiles/zsh/6crickets.zsh'
 alias ed='vim ~/dotfiles/.zshrc'
-alias ed-lo='vim ~.zshrc.local'
+alias ed-lo='vim ~/.zshrc.local'
 alias ed-al='vim ~/dotfiles/zsh/aliases.zsh'
 alias ed-fun='vim ~/dotfiles/zsh/functions.zsh'
 alias ed-6='vim ~/dotfiles/zsh/6crickets.zsh'
 alias re='source ~/.zshrc'
+alias 6sql='cd Projects/6crickets/coding/SQL'
+
 
 # Python virtual env
-alias cve='python3 -m venv myenv'
-alias ave='source myenv/bin/activate'
+alias cve='python3 -m venv .venv'
+alias ave='source .venv/bin/activate'
 
 # Convert mysql/psql table output to CSV or TSV
 alias tcsv="sed -n 's/ | /,/g; s/^| //; s/ |$//; /^[^+]/p' "
