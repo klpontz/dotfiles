@@ -42,3 +42,10 @@ cc-sql() {
     set current settings of w to settings set "_sql"
   end tell'
 }
+
+cc-ux() {
+  osascript -e 'tell application "Terminal"
+    set w to do script "cd /Users/pontz/Projects/6crickets/ux && claude --model opus --effort xhigh"
+    set current settings of w to settings set "_ux"
+  end tell'
+}
