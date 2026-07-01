@@ -31,21 +31,21 @@ cc-career() {
 
 cc-code() {
   osascript -e 'tell application "Terminal"
-    set w to do script "cd /Users/pontz/Projects/6crickets && claude --model opus --effort xhigh"
+    set w to do script "cd /Users/pontz/Projects/6crickets && claude --model opus"
     set current settings of w to settings set "_code"
   end tell'
 }
 
 cc-sql() {
   osascript -e 'tell application "Terminal"
-    set w to do script "cd /Users/pontz/Projects/6crickets/coding/SQL && claude --model opus --effort xhigh"
+    set w to do script "cd /Users/pontz/Projects/6crickets/coding/SQL && claude --model sonnet"
     set current settings of w to settings set "_sql"
   end tell'
 }
 
 cc-ux() {
   osascript -e 'tell application "Terminal"
-    set w to do script "cd /Users/pontz/Projects/6crickets/ux && claude --model opus --effort xhigh"
+    set w to do script "cd /Users/pontz/Projects/6crickets/ux && claude --model sonnet"
     set current settings of w to settings set "_ux"
   end tell'
 }
