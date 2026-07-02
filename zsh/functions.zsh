@@ -49,3 +49,10 @@ cc-ux() {
     set current settings of w to settings set "_ux"
   end tell'
 }
+
+cc-fit() {
+  osascript -e 'tell application "Terminal"
+    set w to do script "cd /Users/pontz/fit && claude --model opus"
+    set current settings of w to settings set "_fit"
+  end tell'
+}
