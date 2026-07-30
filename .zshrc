@@ -23,6 +23,9 @@ export PATH="/opt/homebrew/opt/mysql@8.0/bin:$PATH"      # mysql 8.0
 export PATH="$HOME/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 
+# Completion system (must run before anything that calls compdef, e.g. gcloud's completion script)
+autoload -Uz compinit && compinit
+
 # Google Cloud SDK
 if [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]; then . "$HOME/google-cloud-sdk/path.zsh.inc"; fi
 if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then . "$HOME/google-cloud-sdk/completion.zsh.inc"; fi
@@ -51,3 +54,13 @@ eval "$(starship init zsh)"
 # =============================================================================
 
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
+
+grok() {
+  local env_file="$HOME/.grok/.env"
+  if [[ -f "$env_file" ]]; then
+    set -a
+    source "$env_file"
+    set +a
+  fi
+  command grok "$@"
+}
