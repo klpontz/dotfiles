@@ -1,4 +1,4 @@
-everybody hasem, these are mine
+everybody has 'em, these are mine
 
 Personal shell configuration for macOS. Built around daily work in data, SQL, Python scripting, and Claude Code.
 
