@@ -21,72 +21,35 @@ compdef _dl dl
 copyfile() { cat "$1" | pbcopy; }
 
 
-# Claude launchers — open a new window with a named profile and launch Claude.
-# Terminal.app uses its saved profiles. Ghostty uses _cc_ghostty below.
-cc-career() {
+# Claude launchers. Pass "g" or "gemini" to start Gemini instead of Claude.
+# Ghostty: cd, set the colors, and run in the current tab. Colors reset on exit.
+# Terminal.app: open a new window with the saved "_<theme>" profile.
+# Usage: cc-code [g|gemini]
+cc-career() { _cc_launch /Users/pontz/career-coach career-coach "claude --model sonnet" "$1"; }
+cc-code()   { _cc_launch /Users/pontz/Projects/6crickets code "claude --model opus" "$1"; }
+cc-sql()    { _cc_launch /Users/pontz/Projects/6crickets/coding/SQL sql "claude --model sonnet" "$1"; }
+cc-ux()     { _cc_launch /Users/pontz/Projects/6crickets/ux ux "claude --model sonnet" "$1"; }
+cc-fit()    { _cc_launch /Users/pontz/fit fit "claude" "$1"; }
+
+# Usage: _cc_launch <dir> <theme> <claude command> [g|gemini]
+_cc_launch() {
+  local dir=$1 theme=$2 cmd=$3
+  [[ $4 == (g|gemini) ]] && cmd=gemini
+
   if [[ $TERM_PROGRAM == ghostty ]]; then
-    _cc_ghostty /Users/pontz/career-coach career-coach "claude --model sonnet"
+    cd "$dir" || return
+    printf '%s' "${_cc_themes[$theme]}"
+    ${=cmd}
+    # Reset text, background, cursor, and palette to the Ghostty defaults.
+    printf '\e]110\a\e]111\a\e]112\a\e]104\a'
     return
   fi
-  osascript -e 'tell application "Terminal"
-    set w to do script "cd /Users/pontz/career-coach && claude --model sonnet"
-    set current settings of w to settings set "_career-coach"
-  end tell'
-}
 
-cc-code() {
-  if [[ $TERM_PROGRAM == ghostty ]]; then
-    _cc_ghostty /Users/pontz/Projects/6crickets code "claude --model opus"
-    return
-  fi
-  osascript -e 'tell application "Terminal"
-    set w to do script "cd /Users/pontz/Projects/6crickets && claude --model opus"
-    set current settings of w to settings set "_code"
-  end tell'
-}
-
-cc-sql() {
-  if [[ $TERM_PROGRAM == ghostty ]]; then
-    _cc_ghostty /Users/pontz/Projects/6crickets/coding/SQL sql "claude --model sonnet"
-    return
-  fi
-  osascript -e 'tell application "Terminal"
-    set w to do script "cd /Users/pontz/Projects/6crickets/coding/SQL && claude --model sonnet"
-    set current settings of w to settings set "_sql"
-  end tell'
-}
-
-cc-ux() {
-  if [[ $TERM_PROGRAM == ghostty ]]; then
-    _cc_ghostty /Users/pontz/Projects/6crickets/ux ux "claude --model sonnet"
-    return
-  fi
-  osascript -e 'tell application "Terminal"
-    set w to do script "cd /Users/pontz/Projects/6crickets/ux && claude --model sonnet"
-    set current settings of w to settings set "_ux"
-  end tell'
-}
-
-cc-fit() {
-  if [[ $TERM_PROGRAM == ghostty ]]; then
-    _cc_ghostty /Users/pontz/fit fit "claude"
-    return
-  fi
-  osascript -e 'tell application "Terminal"
-    set w to do script "cd /Users/pontz/fit && claude"
-    set current settings of w to settings set "_fit"
-  end tell'
-}
-
-
-# Ghostty version of the Claude launchers. Ghostty has no named profiles, so
-# the new window gets CC_THEME and the shell applies the colors at startup.
-# Usage: _cc_ghostty <dir> <theme> <command>
-_cc_ghostty() {
-  osascript - "$1" "$2" "$3" <<'APPLESCRIPT'
+  osascript - "$dir" "$cmd" "_$theme" <<'APPLESCRIPT'
 on run argv
-  tell application "Ghostty"
-    new window with configuration {initial working directory:(item 1 of argv), environment variables:{"CC_THEME=" & (item 2 of argv)}, initial input:(item 3 of argv) & return}
+  tell application "Terminal"
+    set w to do script "cd " & quoted form of (item 1 of argv) & " && " & (item 2 of argv)
+    set current settings of w to settings set (item 3 of argv)
   end tell
 end run
 APPLESCRIPT
@@ -103,7 +66,3 @@ _cc_themes[sql]=$'\e]11;#310653\a'$_cc_base
 _cc_themes[ux]=$'\e]11;#0d0a21\a'$_cc_base
 _cc_themes[fit]=$'\e]11;#7a251e\a\e]10;#d7c9a7\a\e]12;#ffffff\a'
 unset _cc_base
-
-if [[ $TERM_PROGRAM == ghostty && -n ${CC_THEME:-} && -n ${_cc_themes[$CC_THEME]:-} ]]; then
-  printf '%s' "${_cc_themes[$CC_THEME]}"
-fi
