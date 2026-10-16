@@ -27,7 +27,14 @@ copyfile() { cat "$1" | pbcopy; }
 # Usage: cc-code [g|gemini]
 cc-career() { _cc_launch /Users/pontz/career-coach career-coach "claude --model sonnet" "$1"; }
 cc-code()   { _cc_launch /Users/pontz/Projects/6crickets code "claude --model opus" "$1"; }
-cc-sql()    { _cc_launch /Users/pontz/Projects/6crickets/coding/SQL sql "claude --model sonnet" "$1"; }
+# cc-sql starts Gemini by default. Pass "c" or "claude" to start Claude.
+cc-sql() {
+  if [[ $1 == (c|claude) ]]; then
+    _cc_launch /Users/pontz/Projects/6crickets/coding/SQL sql "claude --model sonnet"
+  else
+    _cc_launch /Users/pontz/Projects/6crickets/coding/SQL sql "gemini -m gemini-3.1-pro-preview"
+  fi
+}
 cc-ux()     { _cc_launch /Users/pontz/Projects/6crickets/ux ux "claude --model sonnet" "$1"; }
 cc-fit()    { _cc_launch /Users/pontz/fit fit "claude" "$1"; }
 
